@@ -1,0 +1,27 @@
+.ContactsForm__Form {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  margin-bottom: 35px;
+  border: 1px solid black;
+  width: 380px;
+}
+
+.ContactsForm__btn {
+  width: 100px;
+}
+.ContactsForm__name {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  gap: 5px;
+  margin-bottom: 30px;
+}
+
+.ContactsForm__number {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+  width: 250px;
+  gap: 5px;
+}
