@@ -1,7 +1,12 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import '../ContactsForm/ContactsForm.css';
-import PropTypes from 'prop-types';
+
+import { useSelector } from 'react-redux';
+
+import { addContact } from '../../redux/Contacts/contactsSlice';
+import { nanoid } from 'nanoid';
+import { useDispatch } from 'react-redux';
 
 const numberReg =
   /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
@@ -30,9 +35,21 @@ const initialValues = {
   number: '',
 };
 
-export const ContactsForm = ({ addContact }) => {
+export const ContactsForm = () => {
+  const dispatch = useDispatch();
+  const contacts = useSelector(state => state.contacts);
+  console.log(contacts);
   const handleSubmit = (values, { resetForm }) => {
-    addContact(values);
+    if (
+      contacts.some(
+        contact => values.name.toLowerCase() === contact.name.toLowerCase()
+      )
+    ) {
+      alert(`${values.name} is already in contacts`);
+      return;
+    }
+    const contact = { id: nanoid(), ...values };
+    dispatch(addContact(contact));
     resetForm();
   };
 
@@ -59,8 +76,4 @@ export const ContactsForm = ({ addContact }) => {
       </Form>
     </Formik>
   );
-};
-
-ContactsForm.propTypes = {
-  addContact: PropTypes.func.isRequired,
 };

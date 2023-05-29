@@ -1,78 +1,38 @@
-import { useState, useEffect } from 'react';
 import { ContactsForm } from './ContactsForm/ContactsForm';
-import { nanoid } from 'nanoid';
+
 import ContactsList from './ContactsList/ContactsList';
 import { Filter } from './Filter/Filter';
+// import { Layout } from './Layout';
 import './App.css';
+import { useSelector } from 'react-redux';
 
 export function App() {
-  const [contacts, setContacts] = useState([]);
-  const [filter, setFilter] = useState('');
-
-  useEffect(() => {
-    console.log('componentDidMount');
-    const savedContacts = localStorage.getItem('contacts');
-    console.log(savedContacts);
-    if (savedContacts !== null) {
-      setContacts(JSON.parse(savedContacts));
-    } else {
-    }
-  }, []);
-
-  useEffect(() => {
-    console.log('componentDidUpdate');
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-    console.log('this.state', contacts);
-  }, [contacts]);
-
-  const addContact = ({ name, number }) => {
-    if (
-      contacts.some(
-        contact => name.toLowerCase() === contact.name.toLowerCase()
-      )
-    ) {
-      alert(`${name} is already in contacts`);
-      return;
-    }
-    const contact = { id: nanoid(), name, number };
-    setContacts(prevContacts => [...prevContacts, contact]);
-  };
-
-  const deleteContacts = contactId => {
-    setContacts(prevContacts =>
-      prevContacts.filter(contact => contact.id !== contactId)
-    );
-  };
-
+  const contacts = useSelector(state => state.contacts);
+  const filter = useSelector(state => state.filter);
   const getFilteredContacts = () => {
     return contacts.filter(contact =>
       contact.name.toLowerCase().includes(filter.toLowerCase())
     );
   };
 
-  const changleFilterValue = e => setFilter(e.target.value);
-
-  console.log('render');
   const filteredContacts = getFilteredContacts();
 
   return (
     <div className="App__container">
       <h1>Phonebook</h1>
-      <ContactsForm addContact={addContact} />
+      <ContactsForm />
       <h2>Contacts</h2>
       <h3>Find contacts by name</h3>
       {contacts.length > 0 ? (
         <>
-          <Filter onChange={changleFilterValue} value={filter} />
+          <Filter />
 
-          <ContactsList
-            contacts={filteredContacts}
-            onDeleteContacts={deleteContacts}
-          />
+          <ContactsList contacts={filteredContacts} />
         </>
       ) : (
         <p>No contacts</p>
       )}
+      {/* <Layout /> */}
     </div>
   );
 }
