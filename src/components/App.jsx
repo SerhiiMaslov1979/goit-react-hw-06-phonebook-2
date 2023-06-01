@@ -7,7 +7,7 @@ import './App.css';
 import { useSelector } from 'react-redux';
 
 export function App() {
-  const contacts = useSelector(state => state.contacts);
+  const contacts = useSelector(state => state.contacts.contacts);
   const filter = useSelector(state => state.filter);
   const getFilteredContacts = () => {
     return contacts.filter(contact =>

@@ -9,32 +9,33 @@
 //   },
 // });
 
-import { configureStore } from '@reduxjs/toolkit';
-// import { persistedReducer } from './Contacts/contactsSlice';
-import filterReducer from './Filter/filterSlice';
-import { contactReduser } from './Contacts/contactsSlice';
-// import {
-//   persistStore,
-//   FLUSH,
-//   REHYDRATE,
-//   PAUSE,
-//   PERSIST,
-//   PURGE,
-//   REGISTER,
-// } from 'redux-persist';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
+import filterReducer from '../redux/Filter/filterSlice';
+
+import { persistedContactsReducer } from '../redux/Contacts/contactsSlice';
+
+import {
+  persistStore,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
+const finalReducer = combineReducers({
+  contacts: persistedContactsReducer,
+  filter: filterReducer,
+});
 export const store = configureStore({
-  reducer: {
-    // contacts: persistedReducer,
-    contacts: contactReduser,
-    filter: filterReducer,
-  },
-  //   middleware: getDefaultMiddleware =>
-  //     getDefaultMiddleware({
-  //       serializableCheck: {
-  //         // ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-  //       },
-  //     }),
+  reducer: finalReducer,
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
 
-// export const persistor = persistStore(store);
+export const persistor = persistStore(store);
