@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { addContact } from '../../redux/Contacts/contactsSlice';
 import { nanoid } from 'nanoid';
 import { useDispatch } from 'react-redux';
+import { getContacts } from '../../redux/selectors';
 
 const numberReg =
   /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
@@ -37,8 +38,8 @@ const initialValues = {
 
 export const ContactsForm = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts.contacts);
-  console.log(contacts);
+  const contacts = useSelector(getContacts);
+
   const handleSubmit = (values, { resetForm }) => {
     if (
       contacts.some(

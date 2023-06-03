@@ -1,17 +1,6 @@
-// import { configureStore } from '@reduxjs/toolkit';
-// import { myValueSlice } from './myValue/slice';
-// import { itemsSlice } from './itemsSlice/slice';
-
-// export const store = configureStore({
-//   reducer: {
-//     myValue: myValueSlice.reducer,
-//     items: itemsSlice.reducer,
-//   },
-// });
-
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-import filterReducer from '../redux/Filter/filterSlice';
+import { filterReducer } from '../redux/Filter/filterSlice';
 
 import { persistedContactsReducer } from '../redux/Contacts/contactsSlice';
 
